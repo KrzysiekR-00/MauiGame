@@ -9,6 +9,8 @@ namespace MauiGame.Platforms.Android.Services;
 [Service]
 public class BackgroundService : Service, IBackgroundService
 {
+    public bool IsActive { get; private set; } = false;
+
     public override IBinder OnBind(Intent intent)
     {
         throw new NotImplementedException();
@@ -30,11 +32,13 @@ public class BackgroundService : Service, IBackgroundService
         return StartCommandResult.NotSticky;
     }
 
-    public void Start()
+    public void Start(string title)
     {
         Intent startService = new Intent(MainActivity.ActivityCurrent, typeof(BackgroundService));
         startService.SetAction("START_SERVICE");
         MainActivity.ActivityCurrent.StartService(startService);
+
+        IsActive = true;
     }
 
     public void Stop()
@@ -42,6 +46,13 @@ public class BackgroundService : Service, IBackgroundService
         Intent stopIntent = new Intent(MainActivity.ActivityCurrent, this.Class);
         stopIntent.SetAction("STOP_SERVICE");
         MainActivity.ActivityCurrent.StartService(stopIntent);
+
+        IsActive = false;
+    }
+
+    public void SetTitle(string title)
+    {
+
     }
 
     private void RegisterNotification()

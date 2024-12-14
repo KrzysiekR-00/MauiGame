@@ -10,6 +10,8 @@ namespace MauiGame
         private readonly IPedometer _pedometer;
         private readonly IBackgroundService _backgroundService;
 
+        private int _steps = 0;
+
         public MainPage(IPedometer pedometer, IBackgroundService backgroundService)
         {
             InitializeComponent();
@@ -36,7 +38,10 @@ namespace MauiGame
             {
                 _pedometer.ReadingChanged += (sender, reading) =>
                 {
-                    StepsLabel.Text = reading.NumberOfSteps.ToString();
+                    _steps = reading.NumberOfSteps;
+                    StepsLabel.Text = _steps.ToString();
+
+                    if (_backgroundService.IsActive) _backgroundService.SetTitle(_steps.ToString());
 
                     LogLabel.Text +=
                         TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
@@ -51,7 +56,7 @@ namespace MauiGame
 
         private void StartBackgroundService_Clicked(object sender, EventArgs e)
         {
-            _backgroundService.Start();
+            _backgroundService.Start(_steps.ToString());
 
             LogLabel.Text +=
                 TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
