@@ -105,7 +105,12 @@ public class BackgroundService : Service, IBackgroundService
     // Tworzymy PendingIntent, który uruchomi aplikację po kliknięciu powiadomienia
     private PendingIntent GetPendingIntent()
     {
-        var intent = new Intent(this, typeof(MainActivity)); // Główna aktywność aplikacji
+        // Stwórz Intent, który uruchomi główną stronę aplikacji MAUI (MainPage)
+        var intent = new Intent(this, typeof(MainActivity));
+        intent.AddFlags(ActivityFlags.NewTask); // Umożliwia uruchomienie nowej aktywności w nowym zadaniu
+
+        // Otwórz stronę aplikacji MAUI, nie tylko aktywność
+        intent.PutExtra("startMainPage", true); // Możesz dodać dane do Intent, jeśli chcesz, aby MainActivity wykonała specjalne akcje
         return PendingIntent.GetActivity(MainActivity.ActivityCurrent, 0, intent, PendingIntentFlags.UpdateCurrent);
     }
 }

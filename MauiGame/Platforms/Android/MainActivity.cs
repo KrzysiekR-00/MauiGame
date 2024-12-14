@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.OS;
 
 namespace MauiGame
 {
@@ -10,6 +11,18 @@ namespace MauiGame
         public MainActivity()
         {
             ActivityCurrent = this;
+        }
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+            // Jeśli został przekazany parametr "startMainPage", otwieramy MainPage
+            var startMainPage = Intent.GetBooleanExtra("startMainPage", false);
+            if (startMainPage)
+            {
+                // Tutaj przejdź do MainPage
+                Shell.Current.GoToAsync("//MainPage");
+            }
         }
     }
 }
