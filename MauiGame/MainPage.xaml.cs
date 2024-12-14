@@ -1,4 +1,5 @@
-﻿using Plugin.Maui.Pedometer;
+﻿using MauiGame.Services;
+using Plugin.Maui.Pedometer;
 
 namespace MauiGame
 {
@@ -6,23 +7,25 @@ namespace MauiGame
     {
         int count = 0;
 
-        readonly IPedometer pedometer;
+        private readonly IPedometer _pedometer;
+        private readonly IBackgroundService _backgroundService;
 
-        public MainPage(IPedometer pedometer)
+        public MainPage(IPedometer pedometer, IBackgroundService backgroundService)
         {
             InitializeComponent();
 
-            this.pedometer = pedometer;
+            _pedometer = pedometer;
+            _backgroundService = backgroundService;
 
             pedometer.ReadingChanged += (sender, reading) =>
             {
                 StepsLabel.Text = reading.NumberOfSteps.ToString();
 
                 LogLabel.Text +=
-                TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
-                " - " +
-                reading.NumberOfSteps +
-                Environment.NewLine;
+                    TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
+                    " - steps: " +
+                    reading.NumberOfSteps +
+                    Environment.NewLine;
             };
 
             pedometer.Start();
@@ -38,6 +41,26 @@ namespace MauiGame
                 CounterBtn.Text = $"Clicked {count} times";
 
             SemanticScreenReader.Announce(CounterBtn.Text);
+        }
+
+        private void StartBackgroundService_Clicked(object sender, EventArgs e)
+        {
+            _backgroundService.Start();
+
+            LogLabel.Text +=
+                TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
+                " - start background service" +
+                Environment.NewLine;
+        }
+
+        private void StopBackgroundService_Clicked(object sender, EventArgs e)
+        {
+            _backgroundService.Stop();
+
+            LogLabel.Text +=
+                TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
+                " - stop background service" +
+                Environment.NewLine;
         }
     }
 

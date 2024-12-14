@@ -31,6 +31,18 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
 
+            <Button
+                x:Name="StartBackgroundService"
+                Text="Start background service" 
+                Clicked="StartBackgroundService_Clicked"
+                HorizontalOptions="Fill" />
+
+            <Button
+                x:Name="StopBackgroundService"
+                Text="Stop background service" 
+                Clicked="StopBackgroundService_Clicked"
+                HorizontalOptions="Fill" />
+
             <Label Text="Steps:"/>
             <Label x:Name="StepsLabel" Text="0"/>
             <Label x:Name="LogLabel" Text=""/>

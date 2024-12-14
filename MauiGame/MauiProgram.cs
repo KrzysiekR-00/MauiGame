@@ -22,6 +22,10 @@ namespace MauiGame
 
             builder.Services.AddSingleton(Pedometer.Default);
 
+#if ANDROID
+            builder.Services.AddTransient<Services.IBackgroundService, Platforms.Android.Services.BackgroundService>();
+#endif
+
             return builder.Build();
         }
     }
