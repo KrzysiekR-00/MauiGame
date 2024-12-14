@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Plugin.Maui.Pedometer;
 
 namespace MauiGame
 {
@@ -16,8 +17,10 @@ namespace MauiGame
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton(Pedometer.Default);
 
             return builder.Build();
         }

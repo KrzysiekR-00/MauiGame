@@ -30,6 +30,11 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
+
+            <Label Text="Steps:"/>
+            <Label x:Name="StepsLabel" Text="0"/>
+            <Label x:Name="LogLabel" Text=""/>
+            
         </VerticalStackLayout>
     </ScrollView>
 
