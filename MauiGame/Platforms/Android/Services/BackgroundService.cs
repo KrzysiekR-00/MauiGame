@@ -11,6 +11,13 @@ public class BackgroundService : Service, IBackgroundService
 {
     public bool IsActive { get; private set; } = false;
 
+    private NotificationManager _notificationManager;
+    private Notification _notification;
+
+    private int _notificationId = 100; // Unikalny identyfikator powiadomienia
+
+    private string _title = string.Empty;
+
     public override IBinder OnBind(Intent intent)
     {
         throw new NotImplementedException();
@@ -34,6 +41,8 @@ public class BackgroundService : Service, IBackgroundService
 
     public void Start(string title)
     {
+        _title = title;
+
         Intent startService = new Intent(MainActivity.ActivityCurrent, typeof(BackgroundService));
         startService.SetAction("START_SERVICE");
         MainActivity.ActivityCurrent.StartService(startService);
@@ -50,22 +59,53 @@ public class BackgroundService : Service, IBackgroundService
         IsActive = false;
     }
 
+    // Metoda do zmiany tytułu istniejącego powiadomienia
     public void SetTitle(string title)
     {
+        _title = title;
 
+        if (_notificationManager == null)
+        {
+            _notificationManager = (NotificationManager)MainActivity.ActivityCurrent.GetSystemService(Context.NotificationService);
+        }
+
+        // Tworzymy nowe powiadomienie z nowym tytułem
+        _notification = new Notification.Builder(MainActivity.ActivityCurrent, "ServiceChannel")
+            .SetContentTitle(title)
+            //.SetContentText("Service is still running")
+            .SetSmallIcon(Resource.Drawable.abc_ab_share_pack_mtrl_alpha)
+            .SetOngoing(true)
+            .SetContentIntent(GetPendingIntent()) // Kliknięcie powiadomienia uruchamia aplikację
+            .Build();
+
+        // Zaktualizuj istniejące powiadomienie
+        _notificationManager.Notify(_notificationId, _notification);
     }
 
     private void RegisterNotification()
     {
-        NotificationChannel channel = new NotificationChannel("ServiceChannel", "ServiceDemo", NotificationImportance.Max);
-        NotificationManager manager = (NotificationManager)MainActivity.ActivityCurrent.GetSystemService(Context.NotificationService);
-        manager.CreateNotificationChannel(channel);
-        Notification notification = new Notification.Builder(this, "ServiceChannel")
-           .SetContentTitle("Service Working")
-           .SetSmallIcon(Resource.Drawable.abc_ab_share_pack_mtrl_alpha)
-           .SetOngoing(true)
-           .Build();
+        // Tworzymy kanał powiadomień
+        NotificationChannel channel = new NotificationChannel("ServiceChannel", "ServiceDemo", NotificationImportance.Default);
+        _notificationManager = (NotificationManager)MainActivity.ActivityCurrent.GetSystemService(Context.NotificationService);
+        _notificationManager.CreateNotificationChannel(channel);
 
-        StartForeground(100, notification);
+        // Tworzymy powiadomienie
+        _notification = new Notification.Builder(this, "ServiceChannel")
+            .SetContentTitle("Service Working")
+            //.SetContentText("Service is still running")
+            .SetSmallIcon(Resource.Drawable.abc_ab_share_pack_mtrl_alpha)
+            .SetOngoing(true)
+            .SetContentIntent(GetPendingIntent()) // Kliknięcie powiadomienia uruchamia aplikację
+            .Build();
+
+        // Uruchamiamy powiadomienie w tle
+        StartForeground(_notificationId, _notification);
+    }
+
+    // Tworzymy PendingIntent, który uruchomi aplikację po kliknięciu powiadomienia
+    private PendingIntent GetPendingIntent()
+    {
+        var intent = new Intent(this, typeof(MainActivity)); // Główna aktywność aplikacji
+        return PendingIntent.GetActivity(MainActivity.ActivityCurrent, 0, intent, PendingIntentFlags.UpdateCurrent);
     }
 }
