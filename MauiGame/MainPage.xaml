@@ -7,7 +7,7 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <Image
+            <!--<Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
@@ -29,16 +29,19 @@
                 Text="Click me" 
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
+                HorizontalOptions="Fill" />-->
+
+            <Button
+                Text="Start pedometer" 
+                Clicked="StartPedometer_Clicked"
                 HorizontalOptions="Fill" />
 
             <Button
-                x:Name="StartBackgroundService"
                 Text="Start background service" 
                 Clicked="StartBackgroundService_Clicked"
                 HorizontalOptions="Fill" />
 
             <Button
-                x:Name="StopBackgroundService"
                 Text="Stop background service" 
                 Clicked="StopBackgroundService_Clicked"
                 HorizontalOptions="Fill" />

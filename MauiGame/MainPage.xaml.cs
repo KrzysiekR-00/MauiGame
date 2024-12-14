@@ -5,7 +5,7 @@ namespace MauiGame
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        //int count = 0;
 
         private readonly IPedometer _pedometer;
         private readonly IBackgroundService _backgroundService;
@@ -16,31 +16,37 @@ namespace MauiGame
 
             _pedometer = pedometer;
             _backgroundService = backgroundService;
-
-            pedometer.ReadingChanged += (sender, reading) =>
-            {
-                StepsLabel.Text = reading.NumberOfSteps.ToString();
-
-                LogLabel.Text +=
-                    TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
-                    " - steps: " +
-                    reading.NumberOfSteps +
-                    Environment.NewLine;
-            };
-
-            pedometer.Start();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        //private void OnCounterClicked(object sender, EventArgs e)
+        //{
+        //    count++;
+
+        //    if (count == 1)
+        //        CounterBtn.Text = $"Clicked {count} time";
+        //    else
+        //        CounterBtn.Text = $"Clicked {count} times";
+
+        //    SemanticScreenReader.Announce(CounterBtn.Text);
+        //}
+
+        private void StartPedometer_Clicked(object sender, EventArgs e)
         {
-            count++;
+            if (_pedometer.IsSupported && !_pedometer.IsMonitoring)
+            {
+                _pedometer.ReadingChanged += (sender, reading) =>
+                {
+                    StepsLabel.Text = reading.NumberOfSteps.ToString();
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+                    LogLabel.Text +=
+                        TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
+                        " - steps: " +
+                        reading.NumberOfSteps +
+                        Environment.NewLine;
+                };
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+                _pedometer.Start();
+            }
         }
 
         private void StartBackgroundService_Clicked(object sender, EventArgs e)
