@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MauiGame.DataAccess;
 using MauiGame.Services;
 using Plugin.Maui.Pedometer;
 
@@ -15,14 +16,18 @@ public partial class MainPageModel : ObservableObject
     private readonly IPedometer _pedometer;
     private readonly IBackgroundService _backgroundService;
 
+    private readonly IDataAccess _dataAccess;
+
     private int _startSteps = 0;
 
     public MainPageModel(IPedometer pedometer, IBackgroundService backgroundService)
     {
-        Load();
+        _dataAccess = new FileSystemDataAccess();
 
         _pedometer = pedometer;
         _backgroundService = backgroundService;
+
+        Load();
     }
 
     [RelayCommand]
@@ -64,17 +69,16 @@ public partial class MainPageModel : ObservableObject
     [RelayCommand]
     private void SaveData()
     {
-        DataAccess.Save(CurrentSteps.ToString());
+        _dataAccess.Save(CurrentSteps);
 
         WriteLogLine("Data saved");
     }
 
     private void Load()
     {
-        var loadedSteps = DataAccess.Load();
-        if (int.TryParse(loadedSteps.ToString(), out int steps))
+        if (_dataAccess.TryLoad(out int loadedData))
         {
-            _startSteps = steps;
+            _startSteps = loadedData;
 
             CurrentSteps = _startSteps;
 
