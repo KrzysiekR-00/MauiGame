@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using MauiGame.PageModels;
+using Microsoft.Extensions.Logging;
 using Plugin.Maui.Pedometer;
 
 namespace MauiGame
@@ -10,6 +12,7 @@ namespace MauiGame
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -19,6 +22,8 @@ namespace MauiGame
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<MainPageModel>();
 
             builder.Services.AddSingleton(Pedometer.Default);
 

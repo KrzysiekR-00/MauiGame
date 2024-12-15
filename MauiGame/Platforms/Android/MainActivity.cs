@@ -21,7 +21,7 @@ namespace MauiGame
             if (startMainPage)
             {
                 // Tutaj przejdź do MainPage
-                Shell.Current.GoToAsync("//MainPage");
+                Shell.Current.GoToAsync("//Pages/MainPage");
             }
         }
     }

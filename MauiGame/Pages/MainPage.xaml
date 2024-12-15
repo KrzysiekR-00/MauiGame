@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:MauiGame.PageModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MauiGame.Pages.MainPage"
+             x:DataType="pageModels:MainPageModel">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            
+            <Button
+                Text="Start pedometer" 
+                Command="{Binding StartPedometerCommand}"
+                HorizontalOptions="Fill" />
+
+            <Button
+                Text="Start background service" 
+                Command="{Binding StartBackgroundServiceCommand}"
+                HorizontalOptions="Fill" />
+
+            <Button
+                Text="Stop background service" 
+                Command="{Binding StopBackgroundServiceCommand}"
+                HorizontalOptions="Fill" />
+
+            <Button
+                Text="Save" 
+                Command="{Binding SaveDataCommand}"
+                HorizontalOptions="Fill" />
+
+            <Label Text="Steps:"/>
+            <Label Text="{Binding CurrentSteps}"/>
+            <Label Text="{Binding Log}"/>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
