@@ -46,6 +46,11 @@
                 Clicked="StopBackgroundService_Clicked"
                 HorizontalOptions="Fill" />
 
+            <Button
+                Text="Save" 
+                Clicked="Save_Clicked"
+                HorizontalOptions="Fill" />
+
             <Label Text="Steps:"/>
             <Label x:Name="StepsLabel" Text="0"/>
             <Label x:Name="LogLabel" Text=""/>

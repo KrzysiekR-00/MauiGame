@@ -5,16 +5,17 @@ namespace MauiGame
 {
     public partial class MainPage : ContentPage
     {
-        //int count = 0;
-
         private readonly IPedometer _pedometer;
         private readonly IBackgroundService _backgroundService;
 
-        private int _steps = 0;
+        private int _startSteps = 0;
+        private int _currentSteps = 0;
 
         public MainPage(IPedometer pedometer, IBackgroundService backgroundService)
         {
             InitializeComponent();
+
+            Load();
 
             _pedometer = pedometer;
             _backgroundService = backgroundService;
@@ -38,10 +39,11 @@ namespace MauiGame
             {
                 _pedometer.ReadingChanged += (sender, reading) =>
                 {
-                    _steps = reading.NumberOfSteps;
-                    StepsLabel.Text = _steps.ToString();
+                    _currentSteps = _startSteps + reading.NumberOfSteps;
 
-                    if (_backgroundService.IsActive) _backgroundService.SetTitle(_steps.ToString());
+                    StepsLabel.Text = _currentSteps.ToString();
+
+                    if (_backgroundService.IsActive) _backgroundService.SetTitle(_currentSteps.ToString());
 
                     LogLabel.Text +=
                         TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
@@ -56,7 +58,7 @@ namespace MauiGame
 
         private void StartBackgroundService_Clicked(object sender, EventArgs e)
         {
-            _backgroundService.Start(_steps.ToString());
+            _backgroundService.Start(_currentSteps.ToString());
 
             LogLabel.Text +=
                 TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
@@ -72,6 +74,34 @@ namespace MauiGame
                 TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
                 " - stop background service" +
                 Environment.NewLine;
+        }
+
+        private void Save_Clicked(object sender, EventArgs e)
+        {
+            DataAccess.Save(_currentSteps.ToString());
+
+            LogLabel.Text +=
+                TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
+                " - data saved" +
+                Environment.NewLine;
+        }
+
+        private void Load()
+        {
+            var loadedSteps = DataAccess.Load();
+            if (int.TryParse(loadedSteps.ToString(), out int steps))
+            {
+                _startSteps = steps;
+
+                LogLabel.Text +=
+                TimeOnly.FromDateTime(DateTime.Now).ToString("O") +
+                " - data loaded" +
+                Environment.NewLine;
+
+                _currentSteps = _startSteps;
+
+                StepsLabel.Text = _currentSteps.ToString();
+            }
         }
     }
 
