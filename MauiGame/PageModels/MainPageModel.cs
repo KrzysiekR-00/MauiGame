@@ -46,7 +46,7 @@ public partial class MainPageModel : ObservableObject
                 CurrentSteps = _startSteps + reading.NumberOfSteps;
 
                 //if (_backgroundService.IsActive) _backgroundService.SetTitle(CurrentSteps.ToString());
-                _notificationService.SendNotification(CurrentSteps.ToString(), CurrentSteps.ToString());
+                _notificationService.Show(CurrentSteps.ToString(), CurrentSteps.ToString());
 
                 WriteLogLine("reading.NumberOfSteps: " + reading.NumberOfSteps);
             };

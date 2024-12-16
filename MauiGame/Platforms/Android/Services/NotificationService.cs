@@ -1,6 +1,4 @@
 ﻿using Android.App;
-using Android.Content;
-using Android.OS;
 using AndroidX.Core.App;
 using MauiGame.Services;
 
@@ -8,6 +6,24 @@ namespace MauiGame.Platforms.Android.Services;
 
 public class NotificationService : INotificationService
 {
+    public void Show(string title, string message)
+    {
+        if (BackgroundService.ServiceNotificationChannel == null) return;
+
+        var compatManager = NotificationManagerCompat.From(Platform.AppContext);
+
+        var notification = new Notification.Builder(Platform.AppContext, BackgroundService.ServiceNotificationChannel.Id)
+                .SetContentTitle(title)
+                .SetContentText(message)
+                .SetSmallIcon(Resource.Drawable.abc_ab_share_pack_mtrl_alpha)
+                .SetOngoing(true)
+                .SetContentIntent(BackgroundService.GetPendingIntent())
+                .Build();
+
+        compatManager.Notify(BackgroundService.ServiceNotificationId, notification);
+    }
+
+    /*
     const string channelId = "default";
     const string channelName = "Default";
     const string channelDescription = "The default channel for notifications.";
@@ -160,4 +176,5 @@ public class NotificationService : INotificationService
         long utcAlarmTime = utcTime.AddSeconds(-epochDiff).Ticks / 10000;
         return utcAlarmTime; // milliseconds
     }
+    */
 }

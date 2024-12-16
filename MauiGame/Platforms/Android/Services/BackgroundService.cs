@@ -10,7 +10,7 @@ public class BackgroundService : Service, IBackgroundService
 {
     internal const int ServiceNotificationId = 1;
 
-    internal NotificationChannel? ServiceNotificationChannel { get; private set; } = null;
+    internal static NotificationChannel? ServiceNotificationChannel { get; private set; } = null;
 
     public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
     {
@@ -62,9 +62,9 @@ public class BackgroundService : Service, IBackgroundService
         throw new NotImplementedException();
     }
 
-    private PendingIntent? GetPendingIntent()
+    internal static PendingIntent? GetPendingIntent()
     {
-        var intent = new Intent(this, typeof(MainActivity));
+        var intent = new Intent(Platform.AppContext, typeof(MainActivity));
         intent.AddFlags(ActivityFlags.NewTask);
         intent.PutExtra("startMainPage", true);
         return PendingIntent.GetActivity(

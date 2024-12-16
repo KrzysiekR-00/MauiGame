@@ -6,5 +6,4 @@ public interface IBackgroundService
 
     void Start();
     void Stop();
-    //void SetTitle(string title);
 }
