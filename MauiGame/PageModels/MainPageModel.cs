@@ -15,17 +15,23 @@ public partial class MainPageModel : ObservableObject
 
     private readonly IPedometer _pedometer;
     private readonly IBackgroundService _backgroundService;
+    private readonly INotificationService _notificationService;
 
     private readonly IDataAccess _dataAccess;
 
     private int _startSteps = 0;
 
-    public MainPageModel(IPedometer pedometer, IBackgroundService backgroundService)
+    public MainPageModel(
+        IPedometer pedometer,
+        IBackgroundService backgroundService,
+        INotificationService notificationService
+        )
     {
         _dataAccess = new FileSystemDataAccess();
 
         _pedometer = pedometer;
         _backgroundService = backgroundService;
+        _notificationService = notificationService;
 
         Load();
     }
@@ -39,7 +45,8 @@ public partial class MainPageModel : ObservableObject
             {
                 CurrentSteps = _startSteps + reading.NumberOfSteps;
 
-                if (_backgroundService.IsActive) _backgroundService.SetTitle(CurrentSteps.ToString());
+                //if (_backgroundService.IsActive) _backgroundService.SetTitle(CurrentSteps.ToString());
+                _notificationService.SendNotification(CurrentSteps.ToString(), CurrentSteps.ToString());
 
                 WriteLogLine("reading.NumberOfSteps: " + reading.NumberOfSteps);
             };
@@ -53,7 +60,8 @@ public partial class MainPageModel : ObservableObject
     [RelayCommand]
     private void StartBackgroundService()
     {
-        _backgroundService.Start(CurrentSteps.ToString());
+        //_backgroundService.Start(CurrentSteps.ToString());
+        _backgroundService.Start();
 
         WriteLogLine("Background service started");
     }

@@ -1,10 +1,10 @@
 ﻿namespace MauiGame.Services;
-
-public interface IBackgroundService
+public interface IPedometerService
 {
     bool IsActive { get; }
 
+    Action<int> StepsRegistered { get; }
+
     void Start();
     void Stop();
-    //void SetTitle(string title);
 }

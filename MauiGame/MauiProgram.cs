@@ -29,6 +29,7 @@ namespace MauiGame
 
 #if ANDROID
             builder.Services.AddTransient<Services.IBackgroundService, Platforms.Android.Services.BackgroundService>();
+            builder.Services.AddTransient<Services.INotificationService, Platforms.Android.Services.NotificationService>();
 #endif
 
             return builder.Build();
