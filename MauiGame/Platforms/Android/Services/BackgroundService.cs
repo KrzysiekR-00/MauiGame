@@ -33,15 +33,15 @@ public class BackgroundService : Service, IBackgroundService
 
     public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
     {
-        if (Services.NotificationService.GetNotificationChannelId() != null)
+        if (NotificationUtilities.GetNotificationChannelId() != null)
         {
-            var notification = Services.NotificationService.CreateNotification(
+            var notification = NotificationUtilities.CreateNotification(
                 "Service working",
                 "Service working"
                 );
 
             StartForeground(
-                Services.NotificationService.NotificationId,
+                NotificationUtilities.NotificationId,
                 notification
                 );
         }
