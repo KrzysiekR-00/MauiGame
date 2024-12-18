@@ -5,16 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiGame"
     Shell.FlyoutBehavior="Flyout"
-    xmlns:pages="clr-namespace:MauiGame.Pages"
+    xmlns:views="clr-namespace:MauiGame.Views"
     Title="MauiGame">
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:Pages.MainPage}"
+        ContentTemplate="{DataTemplate views:MainView}"
         Route="MainPage" />
 
     <FlyoutItem >
-        <ShellContent x:Name="testPage" ContentTemplate="{DataTemplate pages:TestPage}" Route="TestPage" />
+        <ShellContent x:Name="testView" ContentTemplate="{DataTemplate views:TestView}" Route="TestView" />
     </FlyoutItem>
 
 </Shell>

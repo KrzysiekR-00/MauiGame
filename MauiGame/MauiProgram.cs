@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Maui;
-using MauiGame.PageModels;
+using MauiGame.ViewModels;
 using Microsoft.Extensions.Logging;
 using Plugin.Maui.Pedometer;
 
@@ -23,7 +23,8 @@ namespace MauiGame
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<MainPageModel>();
+            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<TestViewModel>();
 
 #if ANDROID
             builder.Services.AddSingleton(Pedometer.Default);

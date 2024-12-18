@@ -3,8 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using MauiGame.DataAccess;
 using MauiGame.Services;
 
-namespace MauiGame.PageModels;
-public partial class MainPageModel : ObservableObject
+namespace MauiGame.ViewModels;
+public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
     private int _currentSteps = 0;
@@ -21,7 +21,7 @@ public partial class MainPageModel : ObservableObject
 
     private int _startSteps = 0;
 
-    public MainPageModel(
+    public MainViewModel(
         IPedometerService pedometerService,
         IBackgroundService backgroundService,
         INotificationService notificationService
@@ -83,7 +83,7 @@ public partial class MainPageModel : ObservableObject
     [RelayCommand]
     private void NavigationTest()
     {
-        _navigationService.NavigateToAsync("//TestPage");
+        _navigationService.NavigateToAsync("//TestView");
     }
 
     private void Load()
