@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiGame.DataAccess;
 using MauiGame.Services;
-using Plugin.Maui.Pedometer;
 
 namespace MauiGame.PageModels;
 public partial class MainPageModel : ObservableObject
@@ -13,7 +12,7 @@ public partial class MainPageModel : ObservableObject
     [ObservableProperty]
     private string _log = "";
 
-    private readonly IPedometer _pedometer;
+    private readonly IPedometerService _pedometerService;
     private readonly IBackgroundService _backgroundService;
     private readonly INotificationService _notificationService;
 
@@ -22,16 +21,26 @@ public partial class MainPageModel : ObservableObject
     private int _startSteps = 0;
 
     public MainPageModel(
-        IPedometer pedometer,
+        IPedometerService pedometerService,
         IBackgroundService backgroundService,
         INotificationService notificationService
         )
     {
         _dataAccess = new FileSystemDataAccess();
 
-        _pedometer = pedometer;
+        _pedometerService = pedometerService;
         _backgroundService = backgroundService;
         _notificationService = notificationService;
+
+        _pedometerService.StepsRegistered += (steps) =>
+        {
+            CurrentSteps = _startSteps + steps;
+
+            //if (_backgroundService.IsActive) _backgroundService.SetTitle(CurrentSteps.ToString());
+            _notificationService.Show(CurrentSteps.ToString(), CurrentSteps.ToString());
+
+            WriteLogLine("steps: " + steps);
+        };
 
         Load();
     }
@@ -39,22 +48,9 @@ public partial class MainPageModel : ObservableObject
     [RelayCommand]
     private void StartPedometer()
     {
-        if (_pedometer.IsSupported && !_pedometer.IsMonitoring)
-        {
-            _pedometer.ReadingChanged += (sender, reading) =>
-            {
-                CurrentSteps = _startSteps + reading.NumberOfSteps;
+        _pedometerService.Start();
 
-                //if (_backgroundService.IsActive) _backgroundService.SetTitle(CurrentSteps.ToString());
-                _notificationService.Show(CurrentSteps.ToString(), CurrentSteps.ToString());
-
-                WriteLogLine("reading.NumberOfSteps: " + reading.NumberOfSteps);
-            };
-
-            _pedometer.Start();
-
-            WriteLogLine("Pedometer started");
-        }
+        WriteLogLine("Pedometer started");
     }
 
     [RelayCommand]

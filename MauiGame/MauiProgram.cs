@@ -25,11 +25,18 @@ namespace MauiGame
 
             builder.Services.AddSingleton<MainPageModel>();
 
+#if ANDROID
             builder.Services.AddSingleton(Pedometer.Default);
 
-#if ANDROID
             builder.Services.AddTransient<Services.IBackgroundService, Platforms.Android.Services.BackgroundService>();
             builder.Services.AddTransient<Services.INotificationService, Platforms.Android.Services.NotificationService>();
+            builder.Services.AddTransient<Services.IPedometerService, Platforms.Android.Services.PedometerService>();
+#endif
+
+#if WINDOWS
+            builder.Services.AddTransient<Services.IBackgroundService, Platforms.Windows.Services.DummyBackgroundService>();
+            builder.Services.AddTransient<Services.INotificationService, Platforms.Windows.Services.DummyNotificationService>();
+            builder.Services.AddTransient<Services.IPedometerService, Platforms.Windows.Services.DummyPedometerService>();
 #endif
 
             return builder.Build();
