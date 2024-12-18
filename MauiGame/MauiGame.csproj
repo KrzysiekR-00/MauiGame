@@ -67,4 +67,10 @@
 		<PackageReference Include="Plugin.Maui.Pedometer" Version="1.0.0-preview2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\TestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

@@ -17,6 +17,7 @@ public partial class MainPageModel : ObservableObject
     private readonly INotificationService _notificationService;
 
     private readonly IDataAccess _dataAccess;
+    private readonly INavigationService _navigationService;
 
     private int _startSteps = 0;
 
@@ -27,6 +28,7 @@ public partial class MainPageModel : ObservableObject
         )
     {
         _dataAccess = new FileSystemDataAccess();
+        _navigationService = new NavigationService();
 
         _pedometerService = pedometerService;
         _backgroundService = backgroundService;
@@ -76,6 +78,12 @@ public partial class MainPageModel : ObservableObject
         _dataAccess.Save(CurrentSteps);
 
         WriteLogLine("Data saved");
+    }
+
+    [RelayCommand]
+    private void NavigationTest()
+    {
+        _navigationService.NavigateToAsync("//TestPage");
     }
 
     private void Load()

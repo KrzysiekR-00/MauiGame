@@ -3,7 +3,7 @@ using System.Text.Json;
 using FileSystem = Microsoft.Maui.Storage.FileSystem;
 
 namespace MauiGame.DataAccess;
-public class FileSystemDataAccess : IDataAccess
+internal class FileSystemDataAccess : IDataAccess
 {
     private static string DataFilePath
     {
