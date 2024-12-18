@@ -13,8 +13,9 @@
         ContentTemplate="{DataTemplate views:MainView}"
         Route="MainPage" />
 
-    <FlyoutItem >
-        <ShellContent x:Name="testView" ContentTemplate="{DataTemplate views:TestView}" Route="TestView" />
+    <FlyoutItem>
+        <ShellContent ContentTemplate="{DataTemplate views:TestView}" Route="TestView" />
+        <ShellContent ContentTemplate="{DataTemplate views:MainView}" Route="MainView" />
     </FlyoutItem>
 
 </Shell>

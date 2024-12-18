@@ -10,9 +10,15 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        
         <Label 
             Text="{Binding Test}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <Button
+            Text="NavigationTest" 
+            Command="{Binding NavigationTestCommand}"
+            HorizontalOptions="Fill" />
     </VerticalStackLayout>
 </ContentPage>
