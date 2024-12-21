@@ -83,7 +83,9 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void NavigationTest()
     {
-        _navigationService.NavigateToAsync("//TestView", new Dictionary<string, object> { { "TestParameter", "Navigation test 2" } });
+        //_navigationService.NavigateToAsync("//TestView", new Dictionary<string, object> { { "TestParameter", "Navigation test" } });
+
+        _navigationService.NavigateTo(new TestViewModel("Navigation test"));
     }
 
     private void Load()

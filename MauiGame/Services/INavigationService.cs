@@ -1,9 +1,9 @@
-﻿namespace MauiGame.Services;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace MauiGame.Services;
 public interface INavigationService
 {
-    //Task InitializeAsync();
-
     Task NavigateToAsync(string route, IDictionary<string, object>? routeParameters = null);
 
-    //Task PopAsync();
+    Task NavigateTo(ObservableObject observableObject);
 }

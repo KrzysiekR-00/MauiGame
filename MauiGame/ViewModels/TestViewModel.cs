@@ -16,6 +16,13 @@ public partial class TestViewModel : ObservableObject
         _navigationService = new NavigationService();
     }
 
+    public TestViewModel(string test)
+    {
+        Test = test;
+
+        _navigationService = new NavigationService();
+    }
+
     [RelayCommand]
     private void NavigationTest()
     {
