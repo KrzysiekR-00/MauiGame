@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MauiGame.Services;
 
 namespace MauiGame.ViewModels;
+[QueryProperty(nameof(Test), "TestParameter")]
 public partial class TestViewModel : ObservableObject
 {
     private readonly INavigationService _navigationService;
