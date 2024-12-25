@@ -4,7 +4,7 @@ using MauiGame.DataAccess;
 using MauiGame.Services;
 
 namespace MauiGame.ViewModels;
-public partial class MainViewModel : ObservableObject
+public partial class MainViewModel : ViewModel
 {
     [ObservableProperty]
     private int _currentSteps = 0;
@@ -17,18 +17,19 @@ public partial class MainViewModel : ObservableObject
     private readonly INotificationService _notificationService;
 
     private readonly IDataAccess _dataAccess;
-    private readonly INavigationService _navigationService;
 
     private int _startSteps = 0;
 
     public MainViewModel(
+        INavigationService navigationService,
+        IViewModelFactory viewModelFactory,
         IPedometerService pedometerService,
         IBackgroundService backgroundService,
         INotificationService notificationService
         )
+        : base(navigationService, viewModelFactory)
     {
         _dataAccess = new FileSystemDataAccess();
-        _navigationService = new NavigationService();
 
         _pedometerService = pedometerService;
         _backgroundService = backgroundService;
@@ -85,7 +86,7 @@ public partial class MainViewModel : ObservableObject
     {
         //_navigationService.NavigateToAsync("//TestView", new Dictionary<string, object> { { "TestParameter", "Navigation test" } });
 
-        _navigationService.NavigateTo(new TestViewModel("Navigation test"));
+        NavigationService.NavigateTo(ViewModelFactory.CreateTestViewModel("Test value"));
     }
 
     private void Load()
