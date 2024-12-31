@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:MauiGame.ViewModels"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:resources="clr-namespace:MauiGame.Views.Resources"
              x:Class="MauiGame.Views.MainView"
              x:DataType="viewModels:MainViewModel"
              Title="MainView">
@@ -11,7 +12,14 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            
+
+            <Label Text="{x:Static resources:Resources.Test}" />
+
+            <Button
+                Text="Change language" 
+                Command="{Binding ChangeLanguageCommand}"
+                HorizontalOptions="Fill" />
+
             <Button
                 Text="Start pedometer" 
                 Command="{Binding StartPedometerCommand}"

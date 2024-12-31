@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiGame.DataAccess;
 using MauiGame.Services;
+using System.Globalization;
 
 namespace MauiGame.ViewModels;
 public partial class MainViewModel : ViewModel
@@ -46,6 +47,23 @@ public partial class MainViewModel : ViewModel
         };
 
         Load();
+    }
+
+    [RelayCommand]
+    private void ChangeLanguage()
+    {
+        CultureInfo? newCulture;
+
+        if (CultureInfo.CurrentCulture.Name.Contains("en", StringComparison.InvariantCultureIgnoreCase))
+        {
+            newCulture = CultureInfo.CreateSpecificCulture("pl-PL");
+        }
+        else
+        {
+            newCulture = CultureInfo.CreateSpecificCulture("en-US");
+        }
+
+        CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = Thread.CurrentThread.CurrentUICulture = newCulture;
     }
 
     [RelayCommand]
